@@ -1,0 +1,7 @@
+{
+    "terminal.integrated.shell.windows": "${cwd}\\..\\Git\\bin\\bash.exe",
+    "terminal.integrated.env.windows": {
+        "path": "${cwd}\\..\\mingw\\bin\\;${cwd}\\..\\jre1.8.0_201\\bin\\;${cwd}\\Executables\\;${cwd}\\..\\git\\bin\\;",
+        "HOME": "${cwd}"
+    }
+}
