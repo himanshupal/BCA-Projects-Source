@@ -8,22 +8,27 @@ typedef struct linked_list{
 }node;
 
 node *first = NULL, *current = NULL, *temp = NULL, *previous = NULL;
-int op[3];
+int op[3], cycle = 0;
 
 void create(){
     char ch;
+    cycle++;
     do{
+        if(cycle == 1){
+            first = NULL;
+        }
         if(first == NULL){
-        current = (node *)malloc(sizeof(node));
-        printf("Enter Data for First Node: ");
-        scanf("%d", &current->data);
-        first = current;
+            cycle = 0;
+            current = (node *)malloc(sizeof(node));
+            printf("Enter Data for First Node: ");
+            scanf("%d", &current->data);
+            first = current;
         }else{
-        temp = (node *)malloc(sizeof(node));
-        printf("Enter Data for Next Node: ");
-        scanf("%d", &temp->data);
-        current->link = temp;
-        current = temp;
+            temp = (node *)malloc(sizeof(node));
+            printf("Enter Data for Next Node: ");
+            scanf("%d", &temp->data);
+            current->link = temp;
+            current = temp;
         }
         printf("Want to create next Node: ");
         ch = getch();
@@ -90,6 +95,32 @@ void insert_user(){
         current->link = temp;
         printf("Insertion Complete !\n");
         system("pause");
+    }
+    else{
+        int count = 1;
+        temp = (node *)malloc(sizeof(node));
+        current = (node *)malloc(sizeof(node));
+        previous = (node *)malloc(sizeof(node));
+        printf("Data will be inserted after the selected data info...\n");
+        printf("Enter Data for New Node: ");
+        scanf("%d", &current->data);
+        temp=first;
+        while(temp->data <= op[1]){
+            previous = temp;
+            temp = temp->link;
+            count++;
+            if(count > op[2])
+                break;
+        }
+        if(previous->data != op[1]){
+            printf("Element Not Found ! Try Again :)\n");
+            system("pause");
+        }else{
+            previous->link = current;
+            current->link = temp;
+            printf("Insertion Complete !\n");
+            system("pause");
+        }
     }
 }
 
@@ -196,7 +227,7 @@ void ask_user(){
         switch (op[0])
         {
         case 1:
-            printf("Enter Node info: ");
+            printf("Enter Node info : ");
             scanf("%d", &op[1]);
             break;
         case 2:
@@ -254,11 +285,11 @@ int main(int argc, char const *argv[])
             insert_user();
             system("cls");
             break;
-        // case 5:
-            // system("cls");
-            // insert_sorted();
-            // system("cls");
-            // break;
+        case 5:
+            system("cls");
+            insert_sorted();
+            system("cls");
+            break;
         case 6:
             system("cls");
             delete_first();
