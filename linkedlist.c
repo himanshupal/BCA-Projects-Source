@@ -8,7 +8,7 @@ typedef struct linked_list{
 }node;
 
 node *first = NULL, *current = NULL, *temp = NULL, *previous = NULL;
-int op[3], cycle = 0;
+int op[4], cycle = 0;
 
 void create(){
     char ch;
@@ -124,6 +124,47 @@ void insert_user(){
     }
 }
 
+void insert_sorted(){
+    int no_op = 0;
+    temp = (node *)malloc(sizeof(node));
+    current = (node *)malloc(sizeof(node));
+    previous = (node *)malloc(sizeof(node));
+    printf("Enter Data for New Node: ");
+    scanf("%d", &current->data);
+    temp = first->link;
+    if(first->data > current->data){
+        current->link = first;
+        first = current;
+        current = NULL;
+    }
+    else if(current->data > op[3]) {
+        while(temp->link != NULL)
+            temp = temp->link;
+        temp->link = current;
+        current->link = NULL;
+    }
+    else{
+        while (temp->data <= current->data)
+        {
+            previous = temp;
+            temp = temp->link;
+            if (temp->data < previous->data)
+            {
+                printf("Can't Input Data ! Array might not be Sorted !\n");
+                system("pause");
+                no_op = 1;
+                break;
+            }
+        }
+            if(no_op != 1){
+                previous->link = current;
+                current->link = temp;
+                printf("Insertion Complete !\n");
+                system("pause");
+            }
+    }
+}
+
 void delete_first(){
     temp = (node *)malloc(sizeof(node));
     temp = first;
@@ -209,7 +250,8 @@ void lookup(){
     temp = first;
     while (temp != NULL)
     {
-        printf("Information stored in Node %d: %d\n", ++i, temp->data);
+        op[3] = temp->data;
+        printf("Information stored in Node %d: %d\n", ++i, op[3]);
         temp = temp->link;
     }
     op[2] = i;
