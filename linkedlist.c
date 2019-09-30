@@ -8,8 +8,19 @@ typedef struct linked_list
     struct linked_list *link;
 } node;
 
-node *first = NULL, *current = NULL, *temp = NULL, *previous = NULL;
+node *first = NULL, *current, *temp, *previous;
 int op[4];
+
+void error(int x)
+{
+    if (x == 1)
+        printf("LINKED LIST UNDERFLOW / NO ELEMENTS !\n");
+    if (x == 2)
+        printf("LINKED LIST OVERFLOW / NOT ENOUGH MEMORY !\n");
+    if (x == 3)
+        printf("LINKED LIST EMPTY !\n");
+    system("pause");
+}
 
 void create()
 {
@@ -23,24 +34,34 @@ void create()
         }
         if (first == NULL)
         {
-            cycle = 0;
             current = (node *)malloc(sizeof(node));
-            printf("Enter Data for First Node: ");
-            scanf("%d", &current->data);
-            first = current;
+            if (current == NULL)
+                error(2);
+            else
+            {
+                cycle = 0;
+                printf("Enter Data for First Node: ");
+                scanf("%d", &current->data);
+                first = current;
+            }
         }
         else
         {
             temp = (node *)malloc(sizeof(node));
-            printf("Enter Data for Next Node: ");
-            scanf("%d", &temp->data);
-            current->link = temp;
-            current = temp;
+            if (temp == NULL)
+                error(2);
+            else
+            {
+                printf("Enter Data for Next Node: ");
+                scanf("%d", &temp->data);
+                current->link = temp;
+                current = temp;
+            }
         }
         printf("Creating Next Node ...\nPress any key to confirm or .(Dot) to Quit: ");
         ch = getch();
         printf("%c\n", ch);
-    } while (ch != '.' && ch != '.');
+    } while (ch != '.');
     current->link = NULL;
     temp = NULL;
     free(temp);
@@ -51,32 +72,42 @@ void create()
 void insert_first()
 {
     temp = (node *)malloc(sizeof(node));
-    printf("Enter Data for New First Node: ");
-    scanf("%d", &temp->data);
-    temp->link = first;
-    first = temp;
-    temp = NULL;
-    free(temp);
-    printf("Insertion Complete !\n");
-    system("pause");
+    if (temp == NULL)
+        error(2);
+    else
+    {
+        printf("Enter Data for New First Node: ");
+        scanf("%d", &temp->data);
+        temp->link = first;
+        first = temp;
+        temp = NULL;
+        free(temp);
+        printf("Insertion Complete !\n");
+        system("pause");
+    }
 }
 
 void insert_last()
 {
     temp = (node *)malloc(sizeof(node));
     current = (node *)malloc(sizeof(node));
-    printf("Enter Data for New Last Node: ");
-    scanf("%d", &temp->data);
-    current = first;
-    while (current->link != NULL)
-        current = current->link;
-    current->link = temp;
-    temp->link = NULL;
-    current = temp;
-    temp = NULL;
-    free(temp);
-    printf("Insertion Complete !\n");
-    system("pause");
+    if (temp == NULL || current == NULL)
+        error(2);
+    else
+    {
+        printf("Enter Data for New Last Node: ");
+        scanf("%d", &temp->data);
+        current = first;
+        while (current->link != NULL)
+            current = current->link;
+        current->link = temp;
+        temp->link = NULL;
+        current = temp;
+        temp = NULL;
+        free(temp);
+        printf("Insertion Complete !\n");
+        system("pause");
+    }
 }
 
 void insert_user()
@@ -103,105 +134,121 @@ void insert_user()
         }
         else
         {
-            int count = 2;
             temp = (node *)malloc(sizeof(node));
             current = (node *)malloc(sizeof(node));
             previous = (node *)malloc(sizeof(node));
-            printf("Enter Data for New Node: ");
-            scanf("%d", &current->data);
-            temp = first;
-            while (count <= op[1])
+            if (temp == NULL || current == NULL || previous == NULL)
+                error(2);
+            else
             {
-                count++;
-                previous = temp;
-                temp = temp->link;
+                int count = 2;
+                printf("Enter Data for New Node: ");
+                scanf("%d", &current->data);
+                temp = first;
+                while (count <= op[1])
+                {
+                    count++;
+                    previous = temp;
+                    temp = temp->link;
+                }
+                previous->link = current;
+                current->link = temp;
+                printf("Insertion Complete !\n");
+                system("pause");
             }
-            previous->link = current;
-            current->link = temp;
-            printf("Insertion Complete !\n");
-            system("pause");
         }
     }
     else
     {
-        int count = 1;
         temp = (node *)malloc(sizeof(node));
         current = (node *)malloc(sizeof(node));
         previous = (node *)malloc(sizeof(node));
-        printf("Data will be inserted after the selected data info...\n");
-        printf("Enter Data for New Node: ");
-        scanf("%d", &current->data);
-        temp = first;
-        while (temp->data <= op[1])
-        {
-            previous = temp;
-            temp = temp->link;
-            count++;
-            if (count > op[2])
-                break;
-        }
-        if (previous->data != op[1])
-        {
-            printf("Element Not Found ! Try Again :)\n");
-            system("pause");
-        }
+        if (temp == NULL || current == NULL || previous == NULL)
+            error(2);
         else
         {
-            previous->link = current;
-            current->link = temp;
-            printf("Insertion Complete !\n");
-            system("pause");
+            int count = 1;
+            printf("Data will be inserted after the selected data info...\n");
+            printf("Enter Data for New Node: ");
+            scanf("%d", &current->data);
+            temp = first;
+            while (temp->data <= op[1])
+            {
+                previous = temp;
+                temp = temp->link;
+                count++;
+                if (count > op[2])
+                    break;
+            }
+            if (previous->data != op[1])
+            {
+                printf("Element Not Found ! Try Again :)\n");
+                system("pause");
+            }
+            else
+            {
+                previous->link = current;
+                current->link = temp;
+                printf("Insertion Complete !\n");
+                system("pause");
+            }
         }
     }
 }
 
 void insert_sorted()
 {
-    int no_op = 1;
     temp = (node *)malloc(sizeof(node));
     current = (node *)malloc(sizeof(node));
     previous = (node *)malloc(sizeof(node));
-    printf("Treating data Ascendingly...\n");
-    printf("Enter Data for New Node: ");
-    scanf("%d", &current->data);
-    temp = first->link;
-    if (first->data > current->data)
-    {
-        current->link = first;
-        first = current;
-        current = NULL;
-    }
-    else if (current->data > op[3])
-    {
-        while (temp->link != NULL)
-            temp = temp->link;
-        temp->link = current;
-        current->link = NULL;
-    }
+    if (temp == NULL || current == NULL || previous == NULL)
+        error(2);
     else
     {
-        while (temp->data <= current->data)
+        int no_op = 1;
+        printf("Treating data Ascendingly...\n");
+        printf("Enter Data for New Node: ");
+        scanf("%d", &current->data);
+        temp = first->link;
+        if (first->data > current->data)
         {
-            previous = temp;
-            temp = temp->link;
-            if (temp->data < previous->data)
+            current->link = first;
+            first = current;
+            current = NULL;
+        }
+        else if (current->data > op[3])
+        {
+            while (temp->link != NULL)
+                temp = temp->link;
+            temp->link = current;
+            current->link = NULL;
+        }
+        else
+        {
+            temp = first;
+            while (temp->data <= current->data)
             {
-                printf("Can't Input Data ! Array might not be Sorted !\n");
-                system("pause");
-                no_op = 0;
-                break;
+                previous = temp;
+                temp = temp->link;
+                if (temp->data < previous->data)
+                {
+                    printf("Can't Input Data ! Array might not be Sorted !\n");
+                    system("pause");
+                    no_op = 0;
+                    break;
+                }
+            }
+            if (no_op)
+            {
+                previous->link = current;
+                current->link = temp;
             }
         }
         if (no_op)
         {
-            previous->link = current;
-            current->link = temp;
+            printf("Insertion Complete !\n");
+            system("pause");
         }
-    }
-    if (no_op)
-    {
-        printf("Insertion Complete !\n");
-        system("pause");
     }
 }
 
@@ -400,24 +447,38 @@ int main(int argc, char const *argv[])
             break;
         case 6:
             system("cls");
-            delete_first();
+            if (first == NULL)
+                error(1);
+            else
+                delete_first();
             system("cls");
             break;
         case 7:
             system("cls");
-            delete_last();
+            if (first == NULL)
+                error(1);
+            else
+                delete_last();
             system("cls");
             break;
         case 8:
             system("cls");
-            lookup();
-            ask_user();
-            delete_user();
+            if (first == NULL)
+                error(1);
+            else
+            {
+                lookup();
+                ask_user();
+                delete_user();
+            }
             system("cls");
             break;
         case 9:
             system("cls");
-            lookup();
+            if (first == NULL)
+                error(3);
+            else
+                lookup();
             system("cls");
             break;
         case 10:
