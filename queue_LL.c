@@ -1,13 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <conio.h>
-typedef struct stack
+typedef struct queue
 {
     int data;
-    struct stack *link;
+    struct queue *link;
 } node;
 
-node *top = NULL, *current, *temp;
+node *front = NULL, *rear = NULL, *temp;
 
 void create()
 {
@@ -17,15 +17,15 @@ void create()
     do
     {
         if (cycle)
-            top = NULL;
-        if (top == NULL)
+            front = NULL;
+        if (front == NULL)
         {
             cycle = 0;
-            current = (node *)malloc(sizeof(node));
-            printf("Enter Data for Base: ");
-            scanf("%d", &current->data);
-            top = current;
-            top->link = NULL;
+            rear = (node *)malloc(sizeof(node));
+            printf("Enter Data for First Node: ");
+            scanf("%d", &rear->data);
+            front = rear;
+            front->link = NULL;
         }
         else
         {
@@ -34,14 +34,13 @@ void create()
                 printf("NOT ENOUGH MEMORY TO RECEIVE MORE DATA !\n");
             else
             {
-                printf("Enter Next Data: ");
+                printf("Enter Data for Next Node: ");
                 scanf("%d", &temp->data);
-                temp->link = current;
-                current = temp;
-                top = current;
+                rear->link = temp;
+                rear = temp;
             }
         }
-
+        rear->link = NULL;
         printf("Creating Next Node ...\nPress any key to confirm or .(Dot) to Quit: ");
         ch = getch();
         printf("%c\n", ch);
@@ -52,7 +51,7 @@ void traverse()
 {
     system("cls");
     temp = (node *)malloc(sizeof(node));
-    temp = top;
+    temp = front;
     int i = 0;
     while (temp != NULL)
     {
@@ -62,32 +61,37 @@ void traverse()
     free(temp);
 }
 
-void push()
+void insert()
 {
     system("cls");
     temp = (node *)malloc(sizeof(node));
     if (temp == NULL)
-        printf("STACK OVERFLOW !\n");
+        printf("QUEUE OVERFLOW !\n");
     else
     {
-        printf("Enter data for New TOP: ");
+        printf("Enter data for New Node: ");
         scanf("%d", &temp->data);
-        temp->link = top;
-        top = temp;
+        rear->link = temp;
+        rear = temp;
+        rear->link = NULL;
         printf("ELEMENT INSERTED !\n");
     }
 }
 
-void pop()
+void delete ()
 {
     system("cls");
-    if (top == NULL)
-        printf("STACK UNDERFLOW !\n");
+    if (front == NULL)
+        printf("QUEUE UNDERFLOW !\n");
+    else if (front == rear)
+    {
+        temp = front;
+        front = rear = NULL;
+    }
     else
     {
-        temp = (node *)malloc(sizeof(node));
-        temp = top;
-        top = top->link;
+        temp = front;
+        front = front->link;
         free(temp);
         printf("ELEMENT DELETED !\n");
     }
@@ -99,12 +103,12 @@ int main(int argc, char const *argv[])
     do
     {
         system("cls");
-        printf("STACK USING LINKED LIST REPRESENTATION ~\n");
-        printf("1: Create Stack.\n");
-        printf("2: Read Stack.\n");
-        printf("3: Add Element.\n");
-        printf("4: Remove Element.\n");
-        printf("5: EXIT MENU.\n");
+        printf("QUEUE DEMONSTRATION USING LINKED LIST ~\n");
+        printf("1: Insert data in Queue.\n");
+        printf("2: Read the Data.\n");
+        printf("3: Insert Single Element.\n");
+        printf("4: Delete an Element.\n");
+        printf("5: EXIT !\n");
         printf("Enter your Choice: ");
         scanf("%d", &sel);
         switch (sel)
@@ -118,11 +122,11 @@ int main(int argc, char const *argv[])
             system("pause");
             break;
         case 3:
-            push();
+            insert();
             system("pause");
             break;
         case 4:
-            pop();
+            delete ();
             system("pause");
             break;
         case 5:

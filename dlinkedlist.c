@@ -75,7 +75,6 @@ void create()
 void insert_first()
 {
     temp = (node *)malloc(sizeof(node));
-    temp = (node *)malloc(sizeof(node));
     if (temp == NULL)
         error(2);
     else
@@ -95,8 +94,7 @@ void insert_first()
 void insert_last()
 {
     temp = (node *)malloc(sizeof(node));
-    current = (node *)malloc(sizeof(node));
-    if (temp == NULL || current == NULL)
+    if (temp == NULL)
         error(2);
     else
     {
@@ -140,10 +138,8 @@ void insert_user()
         }
         else
         {
-            temp = (node *)malloc(sizeof(node));
             current = (node *)malloc(sizeof(node));
-            tail = (node *)malloc(sizeof(node));
-            if (temp == NULL || current == NULL || tail == NULL)
+            if (current == NULL)
                 error(2);
             else
             {
@@ -168,37 +164,37 @@ void insert_user()
     }
     else
     {
-        temp = (node *)malloc(sizeof(node));
         current = (node *)malloc(sizeof(node));
-        tail = (node *)malloc(sizeof(node));
-        if (temp == NULL || current == NULL || tail == NULL)
+        if (current == NULL)
             error(2);
         else
         {
-            int count = 1;
+            int count = 1, not_found = 0;
             printf("Data will be inserted after the selected data info...\n");
             printf("Enter Data for New Node: ");
             scanf("%d", &current->data);
             temp = first;
-            while (temp->data <= op[1])
+            while (temp->data != op[1])
             {
-                tail = temp;
                 temp = temp->next;
                 count++;
                 if (count > op[2])
+                {
+                    not_found = 1;
                     break;
+                }
             }
-            if (tail->data != op[1])
+            if (not_found == 1)
             {
                 printf("Element Not Found ! Try Again :)\n");
                 system("pause");
             }
             else
             {
-                tail->next = current;
-                current->next = temp;
-                current->previous = tail;
-                temp->previous = current;
+                temp->next->previous = current;
+                current->next = temp->next;
+                current->previous = temp;
+                temp->next = current;
                 printf("Insertion Complete !\n");
                 system("pause");
             }
@@ -208,10 +204,8 @@ void insert_user()
 
 void insert_sorted()
 {
-    temp = (node *)malloc(sizeof(node));
     current = (node *)malloc(sizeof(node));
-    tail = (node *)malloc(sizeof(node));
-    if (temp == NULL || current == NULL || tail == NULL)
+    if (current == NULL)
         error(2);
     else
     {
@@ -222,21 +216,22 @@ void insert_sorted()
         temp = first->next;
         if (first->data > current->data)
         {
+            current->previous = NULL;
             current->next = first;
             first->previous = current;
-            current->previous = NULL;
             first = current;
         }
         else if (current->data > op[3])
         {
             while (temp->next != NULL)
                 temp = temp->next;
-            current->previous = temp;
             temp->next = current;
+            current->previous = temp;
             current->next = NULL;
         }
         else
         {
+            temp = first;
             while (temp->data <= current->data)
             {
                 tail = temp;
@@ -267,7 +262,6 @@ void insert_sorted()
 
 void delete_first()
 {
-    temp = (node *)malloc(sizeof(node));
     temp = first;
     first = first->next;
     first->previous = NULL;
@@ -278,8 +272,6 @@ void delete_first()
 
 void delete_last()
 {
-    temp = (node *)malloc(sizeof(node));
-    current = (node *)malloc(sizeof(node));
     temp = first;
     while (temp->next != NULL)
     {
@@ -312,8 +304,6 @@ void delete_user()
         else
         {
             int count = 2;
-            temp = (node *)malloc(sizeof(node));
-            current = (node *)malloc(sizeof(node));
             temp = first;
             while (count <= op[1])
             {
@@ -334,8 +324,6 @@ void delete_user()
             delete_first();
         else
         {
-            temp = (node *)malloc(sizeof(node));
-            current = (node *)malloc(sizeof(node));
             temp = first;
             while (count <= op[2])
             {
@@ -369,7 +357,6 @@ void delete_user()
 void lookup()
 {
     int i = 0;
-    temp = (node *)malloc(sizeof(node));
     temp = first;
     while (temp != NULL)
     {
@@ -378,15 +365,12 @@ void lookup()
         temp = temp->next;
     }
     op[2] = i;
-    free(temp);
     system("pause");
 }
 
 void lookup_d()
 {
     int i = 0;
-    temp = (node *)malloc(sizeof(node));
-    current = (node *)malloc(sizeof(node));
     temp = first;
     while (temp != NULL)
     {
@@ -398,8 +382,6 @@ void lookup_d()
         printf("Information stored in Node %d: %d\n", ++i, current->data);
         current = current->previous;
     }
-    free(temp);
-    free(current);
     system("pause");
 }
 
@@ -438,7 +420,7 @@ int main(int argc, char const *argv[])
     do
     {
         system("cls");
-        printf("SINGLY LINKED LIST DEMONSTRATION ~\n");
+        printf("DOUBLY LINKED LIST DEMONSTRATION ~\n");
         printf("1:  Create a new Linked List.\n");
         printf("2:  Insert new node at First Position.\n");
         printf("3:  Insert new node at End of Linked List.\n");

@@ -90,8 +90,7 @@ void insert_first()
 void insert_last()
 {
     temp = (node *)malloc(sizeof(node));
-    current = (node *)malloc(sizeof(node));
-    if (temp == NULL || current == NULL)
+    if (temp == NULL)
         error(2);
     else
     {
@@ -134,10 +133,8 @@ void insert_user()
         }
         else
         {
-            temp = (node *)malloc(sizeof(node));
             current = (node *)malloc(sizeof(node));
-            previous = (node *)malloc(sizeof(node));
-            if (temp == NULL || current == NULL || previous == NULL)
+            if (current == NULL)
                 error(2);
             else
             {
@@ -160,35 +157,35 @@ void insert_user()
     }
     else
     {
-        temp = (node *)malloc(sizeof(node));
         current = (node *)malloc(sizeof(node));
-        previous = (node *)malloc(sizeof(node));
-        if (temp == NULL || current == NULL || previous == NULL)
+        if (current == NULL)
             error(2);
         else
         {
-            int count = 1;
+            int count = 1, not_found = 0;
             printf("Data will be inserted after the selected data info...\n");
             printf("Enter Data for New Node: ");
             scanf("%d", &current->data);
             temp = first;
-            while (temp->data <= op[1])
+            while (temp->data != op[1])
             {
-                previous = temp;
                 temp = temp->link;
                 count++;
                 if (count > op[2])
+                {
+                    not_found = 1;
                     break;
+                }
             }
-            if (previous->data != op[1])
+            if (not_found == 1)
             {
                 printf("Element Not Found ! Try Again :)\n");
                 system("pause");
             }
             else
             {
-                previous->link = current;
-                current->link = temp;
+                current->link = temp->link;
+                temp->link = current;
                 printf("Insertion Complete !\n");
                 system("pause");
             }
@@ -198,10 +195,8 @@ void insert_user()
 
 void insert_sorted()
 {
-    temp = (node *)malloc(sizeof(node));
     current = (node *)malloc(sizeof(node));
-    previous = (node *)malloc(sizeof(node));
-    if (temp == NULL || current == NULL || previous == NULL)
+    if (current == NULL)
         error(2);
     else
     {
@@ -254,7 +249,6 @@ void insert_sorted()
 
 void delete_first()
 {
-    temp = (node *)malloc(sizeof(node));
     temp = first;
     first = first->link;
     free(temp);
@@ -264,8 +258,6 @@ void delete_first()
 
 void delete_last()
 {
-    temp = (node *)malloc(sizeof(node));
-    current = (node *)malloc(sizeof(node));
     temp = first;
     while (temp->link != NULL)
     {
@@ -298,8 +290,6 @@ void delete_user()
         else
         {
             int count = 2;
-            temp = (node *)malloc(sizeof(node));
-            current = (node *)malloc(sizeof(node));
             temp = first;
             while (count <= op[1])
             {
@@ -320,8 +310,6 @@ void delete_user()
             delete_first();
         else
         {
-            temp = (node *)malloc(sizeof(node));
-            current = (node *)malloc(sizeof(node));
             temp = first;
             while (count <= op[2])
             {
@@ -355,7 +343,6 @@ void delete_user()
 void lookup()
 {
     int i = 0;
-    temp = (node *)malloc(sizeof(node));
     temp = first;
     while (temp != NULL)
     {
