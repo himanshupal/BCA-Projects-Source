@@ -1,9 +1,9 @@
+/* C++ Program to Sum & Average of 3 Numbers. */
+
 #include <iostream>
 using namespace std;
-int main(int argc, char const *argv[])
-{
-    int num1, num2, num3, sum;
-    float avg;
+int main(int argc, char const *argv[]) {
+    int num1, num2, num3, sum; float avg;
     cout << "Enter First Number: ";
     cin >> num1;
     cout << "Enter Second Number: ";

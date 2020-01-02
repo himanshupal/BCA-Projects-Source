@@ -1,22 +1,18 @@
+/* C++ Program to Implement a Simple Calculator. */
 #include <iostream>
 #include <conio.h>
 using namespace std;
-int main(int argc, char const *argv[])
-{
-    float x, y, res;
-    char ch;
-    bool repeat;
+int main(int argc, char const *argv[]) {
+    float x, y, res; char ch; bool repeat;
     cout << "Enter Smaller No: ";
     cin >> x;
     cout << "Enter Larger No. ";
     cin >> y;
-    do
-    {
+    do {
         repeat = false;
         cout << "What operation do you want to perform ( + , - , * , / ): ";
         cin >> ch;
-        switch (ch)
-        {
+        switch (ch) {
         case '+':
             res = x + y;
             break;

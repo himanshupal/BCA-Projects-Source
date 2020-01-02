@@ -1,3 +1,5 @@
+/* C++ Program to Convert Binary Number to Decimal. */
+
 #include <iostream>
 #include <math.h>
 using namespace std;

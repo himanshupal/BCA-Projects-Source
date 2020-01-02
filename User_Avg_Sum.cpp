@@ -1,8 +1,9 @@
+/* C++ Program to find Sum & Average of N numbers. */
+
 #include<iostream>
 #include<conio.h>
 using namespace std;
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
     float num, sum = 0, avg, count=0;
     char ch;
     do{

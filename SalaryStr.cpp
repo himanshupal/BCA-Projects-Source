@@ -1,15 +1,14 @@
+/* C++ Program to calculate Net Pay of Employee using Structure. */
+
 #include<iostream>
 using namespace std;
-struct employee{
-    string name;
-    int code;
-    float bp;
-};
-int main(int argc, char const *argv[])
-{
-    float da, hra, net;
-    char ch;
-    employee emp;
+int main(int argc, char const *argv[]) {
+    struct employee{
+        string name;
+        int code;
+        float bp;
+    }emp;
+    float da, hra, net; char ch;
     do{
         system("cls");
         cout << "Enter Employee code: ";

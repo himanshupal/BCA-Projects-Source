@@ -1,7 +1,8 @@
+/* C++ Program to get Reverse of a Number. */
+
 #include<iostream>
 using namespace std;
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]){
     int num, rev = 0;
     cout << "Enter a Number to get it's Reverse: ";
     cin >> num;

@@ -1,9 +1,9 @@
+/* C++ Program to calculate Net Pay of Employee. */
+
 #include <iostream>
 using namespace std;
-int main(int argc, char const *argv[])
-{
-    float bp, da, hra, net, code;
-    string name;
+int main(int argc, char const *argv[]) {
+    float bp, da, hra, net, code; string name;
     cout << "Enter Employee Code: ";
     cin >> code;
     cout << "Enter Employee's Name: ";

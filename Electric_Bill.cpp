@@ -1,7 +1,8 @@
+/* C++ Program to get Bill amount at fixed Rates. */
+
 #include<iostream>
 using namespace std;
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
     float pre_read, cur_read, units;
     cout << "Enter Previous Reading: ";
     cin >> pre_read;
